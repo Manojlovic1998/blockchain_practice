@@ -28,5 +28,11 @@ def get_chain():
     return jsonify(response)
 
 
-
-
+@app.route("/is_valid")
+def is_valid():
+    is_chain_valid = blockchain.is_chain_valid(blockchain.chain)
+    if is_chain_valid:
+        response = {"message": "The Blockchain is valid."}
+    else:
+        response = {"message": "The Blockchain is NOT valid!"}
+    return jsonify(response), 200
