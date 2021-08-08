@@ -78,3 +78,17 @@ def connect_node():
     response = {"message": "All the nodes are now connected. The Examcoin Blockchain now contains the following nodes:",
                 "total_nodes": list(blockchain.nodes)}
     return jsonify(response), 201
+
+
+# Replacing the chain by the longest chain if needed
+@app.route("/replace_chain")
+def replace_chain():
+    is_chain_replaced = blockchain.replace_chain()
+    if is_chain_replaced:
+        response = {"message": "The nodes had different chains so the chain was replaced by the longest one.",
+                    "new_chain": blockchain.chain}
+    else:
+        response = {"message": "OK. The chain is the largest one.",
+                    "actual_chain": blockchain.chain}
+
+    return jsonify(response), 200
