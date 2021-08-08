@@ -2,7 +2,6 @@ import datetime
 import hashlib
 import json
 import requests
-from uuid import uuid4
 from urllib.parse import urlparse
 
 
