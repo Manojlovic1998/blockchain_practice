@@ -63,3 +63,18 @@ def add_transaction():
     index = blockchain.add_transaction(sender=json_file.sender, receiver=json_file.receiver, amount=json_file.amount)
     response = {"message": f"This transaction will be added to Block {index}."}
     return response, 201
+
+
+# Connecting new nodes
+@app.route("/connect_node", methods=["POST"])
+def connect_node():
+    json_file = request.get_json()
+    nodes = json_file.get('nodes')
+    if nodes is None:
+        return "No node", 400
+
+    for node in nodes:
+        blockchain.add_node(node)
+    response = {"message": "All the nodes are now connected. The Examcoin Blockchain now contains the following nodes:",
+                "total_nodes": list(blockchain.nodes)}
+    return jsonify(response), 201
