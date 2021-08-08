@@ -49,3 +49,17 @@ def is_valid():
     else:
         response = {"message": "The Blockchain is NOT valid!"}
     return jsonify(response), 200
+
+
+# Add new transaction to the Blockchain
+@app.route("/add_transaction", methods=["POST"])
+def add_transaction():
+    json_file = request.get_json()
+    transaction_keys = ["sender", "receiver", "amount"]
+
+    if not all(key in json_file for key in transaction_keys):
+        return "Transaction missing some of the required elements!", 400
+
+    index = blockchain.add_transaction(sender=json_file.sender, receiver=json_file.receiver, amount=json_file.amount)
+    response = {"message": f"This transaction will be added to Block {index}."}
+    return response, 201
